@@ -32,7 +32,7 @@ import java.util.Optional;
             return "Order placed successfully";
         }
         else{
-            return "Order not successful";
+            return "Order could not be placed";
         }
     }
     }

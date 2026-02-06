@@ -1,15 +1,12 @@
 package com.example.order_service.Entity;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
-    @Entity
+@Entity
+@Table(name="orders")
     public class Order {
 
         @Id
         @GeneratedValue(strategy= GenerationType.IDENTITY)
-
         private int id;
         private int productId;
         private int quantity;
@@ -19,8 +16,8 @@ import jakarta.persistence.Id;
         public Order() {}
 
         // Order Constructor
-        public Order( int quantity, double totalPrice, String status) {
-
+        public Order(int productId, int quantity, String status, double totalPrice) {
+            this.productId = productId;
             this.quantity = quantity;
             this.totalPrice = totalPrice;
             this.status = status;

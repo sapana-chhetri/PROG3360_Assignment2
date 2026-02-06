@@ -3,6 +3,7 @@ package com.example.product_service.Service;
 import com.example.product_service.Repository.Product;
 import com.example.product_service.Repository.ProductRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
 import java.util.Optional;
