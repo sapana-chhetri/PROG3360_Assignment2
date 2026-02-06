@@ -64,6 +64,7 @@ jobs:
         uses: actions/checkout@v4
       - name: Run and Test with Maven - Product Service
         run:  mvn build
+        working-directory: product-service
       - name: Take a look
         run: ls -l product-service/target/
       - name: Build image
