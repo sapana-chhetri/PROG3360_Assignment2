@@ -2,7 +2,7 @@ FROM eclipse-temurin:21-jre
 
 WORKDIR /product-service
 
-COPY /target/*-SNAPSHOT.jar app.jar
+COPY target/SERVICE-SNAPSHOT.jar app.jar
 
 EXPOSE 8081
 
