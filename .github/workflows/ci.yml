@@ -63,7 +63,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
       - name: Take a Look
-        run: ls -R | grep ":$"
+        run: find . -type d
       - name: Build image
         run: docker build -t productservice .
         working-directory: product-service
