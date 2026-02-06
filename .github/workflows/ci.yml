@@ -42,19 +42,15 @@ jobs:
           java-version: '21'
           cache: 'maven'
       - name: Run with Maven - Product Service
-        run:  mvn -B package --file product-service/pom.xml
+        run:  mvn clean install -B
+        working-directory: product-service
       - name: Run with Maven - Order Service
-        run:  mvn -B package --file order-service/pom.xml
-      - name: Build with Maven - Product Service
+        run:  mvn clean install -B
+        working-directory: order-service
+      - name: Test with Maven - Product Service
         working-directory: product-service
         run: mvn clean verify
-      - name: Unit Test Report - Product Service
-        uses: actions/upload-artifact@v4
-        if: success() || failure()
-        with:
-          name: SpringBoot Report
-          path: product-service/src/test
-      - name: Build with Maven - Order Service
+      - name: Test with Maven - Order Service
         working-directory: order-service
         run: mvn clean verify
       - name: Unit Test Report - Order Service
@@ -62,7 +58,6 @@ jobs:
         if: success() || failure()
         with:
           name: SpringBoot Report
-          path: order-service/src/test
 
 
 
