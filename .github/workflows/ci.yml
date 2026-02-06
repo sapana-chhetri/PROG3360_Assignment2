@@ -63,7 +63,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
       - name: Run and Test with Maven - Product Service
-        run:  mvn compiler:compile
+        run:  mvn package
         working-directory: product-service
       - name: Take a look
         run: ls -l product-service/target/
