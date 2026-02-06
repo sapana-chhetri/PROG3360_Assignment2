@@ -1,6 +1,6 @@
 FROM eclipse-temurin:21-jre
 
-WORKDIR /app
+WORKDIR /product-service
 
 COPY target/*-SNAPSHOT.jar app.jar
 
