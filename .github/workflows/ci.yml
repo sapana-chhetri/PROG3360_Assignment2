@@ -60,10 +60,10 @@ jobs:
     
     steps:
     # Login first
-      - name: Build and Push product-service Image
-        run: # use command from cloud comp?
-      - name: Build and Push order-service Image
-        run: # same deal
+      - name: Build product-service Image
+        run: docker build ./product-service -t product-service:latest
+      - name: Build order-service Image
+        run:  docker build ./order-service -t order-service:latest
       - name: Start up docker-compose
         run: docker-compose up
         
