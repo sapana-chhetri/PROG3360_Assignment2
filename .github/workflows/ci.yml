@@ -46,7 +46,7 @@ jobs:
         run:  mvn package
         working-directory: product-service
       - name: Take a look
-        run: ls -l
+        run: ls -l product-service/
       # - name: Run and Test with Maven - Product Service
       #   run:  mvn clean verify -B
       #   working-directory: product-service
