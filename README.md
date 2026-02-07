@@ -18,7 +18,7 @@ Spring Boot Microservices
 - Get All products: http://localhost:8081/api/products
 - Get product by ID: http://localhost:8081/api/products/{id}
 - Create Product: http://localhost:8081/api/products
-- {
+- JSON Body {
   "name": "Game",
   "price": 25.00,
   "quantity": 5
@@ -27,7 +27,7 @@ Spring Boot Microservices
 - Get Orders http://localhost:8082/api/orders
 - Get Order by ID: http://localhost:8082/api/orders/{id}
 - Create Order: http://localhost:8082/api/orders
-- {
+- JSON Body {
  "productId": 1,
   "quantity": 5,
   "totalPrice": 50,
