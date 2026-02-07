@@ -60,11 +60,11 @@ jobs:
         run: docker build -t orderservice .
         working-directory: order-service
 
-      - name: Docker Compose
-        run: docker compose up 
+      # - name: Docker Compose
+      #   run: docker compose up 
 
-      - name: Docker compose down
-        run: docker compose down
+      # - name: Docker compose down
+      #   run: docker compose down
         
       # - name: Wait for Healthcheck to run
       #   run: Start-Sleep -s 30
