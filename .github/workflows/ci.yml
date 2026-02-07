@@ -61,7 +61,7 @@ jobs:
         working-directory: order-service
 
       - name: Docker Compose
-        run: docker-compose up -d
+        run: docker-compose up --build
         
   
 
