@@ -63,8 +63,8 @@ jobs:
       - name: Docker Compose
         run: docker compose up 
         
-      - name: Wait for Healthcheck to run
-        run: Start-Sleep -s 30
+      # - name: Wait for Healthcheck to run
+      #   run: Start-Sleep -s 30
         
   
 
