@@ -50,4 +50,15 @@ jobs:
       - name: Build Docker image
         run: docker build -t productservice .
         working-directory: product-service
+
+      - name: Run and Test with Maven - Order Service
+        run:  mvn package
+        working-directory: order-service
+ 
+        
+      - name: Build Docker image
+        run: docker build -t orderservice .
+        working-directory: order-service
+  
+
   
