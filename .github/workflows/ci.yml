@@ -72,6 +72,8 @@ jobs:
       
     - name: Build Product Docker image
       run: docker build -t productservice .
+      #OR this if above doesnt work, from template.. run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+
       working-directory: order-service
       
     - name: Build Order Docker image
