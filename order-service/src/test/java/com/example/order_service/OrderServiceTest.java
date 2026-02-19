@@ -114,9 +114,7 @@ public class OrderServiceTest {
         product.setQuantity(10);
 
 
-        when(restTemplate.getForObject(anyString(), eq(Product.class))).thenReturn(product);
         when(featureFlagService.isOrderNotificationsEnabled()).thenReturn(true);
-        when(orderRepository.save(order)).thenReturn(order);
 
         ByteArrayOutputStream outContent= new ByteArrayOutputStream();
         System.setOut((new PrintStream(outContent)));
@@ -128,7 +126,7 @@ public class OrderServiceTest {
                 "\nOrder ID"+order.getId()+
                 "\nProduct ID:" + order.getProductId() +
                 "\nQuantity:" + order.getQuantity() +
-                "\nTotal Price";
+                "\nTotal Price"+order.getTotalPrice();
         assertEquals(expectedOutput.trim(),outContent.toString().trim());
 
     }
@@ -141,7 +139,6 @@ public class OrderServiceTest {
         Product product=new Product();
         product.setQuantity(10);
 
-        when(restTemplate.getForObject(anyString(), eq(Product.class))).thenReturn(product);
         when(featureFlagService.isOrderNotificationsEnabled()).thenReturn(false);
 
         ByteArrayOutputStream outContent= new ByteArrayOutputStream();
