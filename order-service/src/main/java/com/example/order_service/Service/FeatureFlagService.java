@@ -14,6 +14,13 @@ public class FeatureFlagService {
     }
 
     //Feature Flag 2 Order Notifications
+    public boolean isOrderNotificationsEnabled(){
+        try {
+            return unleash.isEnabled("order-notifications");
+        }catch (Exception e){
+            return false;
+        }
+    }
 
 
     //Feature Flag 3 Bulk Order Discount
