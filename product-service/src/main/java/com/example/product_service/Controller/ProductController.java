@@ -20,6 +20,11 @@ public class ProductController {
         return productService.getProducts();
     }
 
+    @GetMapping("/products/premium")
+    public List<Product> getPremiumPricingProducts() {
+        return productService.getPremiumPricing();
+    }
+
     @GetMapping("/products/{id}")
     public Optional<Product> getProductById(@PathVariable int id) {
         return productService.getProductById(id);
