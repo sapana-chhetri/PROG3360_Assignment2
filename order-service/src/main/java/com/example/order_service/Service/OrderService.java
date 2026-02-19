@@ -19,9 +19,10 @@ public class OrderService {
     private final FeatureFlagService featureFlagService;
     private OrderRepository orderRepository;
 
-    public OrderService(FeatureFlagService featureFlagService, OrderRepository orderRepository) {
+    public OrderService(RestTemplate restTemplate, FeatureFlagService featureFlagService, OrderRepository orderRepository) {
         this.featureFlagService = featureFlagService;
         this.orderRepository = orderRepository;
+        this.restTemplate=restTemplate;
     }
 
     public List<Order> getOrders() {
