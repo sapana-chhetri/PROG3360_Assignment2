@@ -95,4 +95,51 @@ public class OrderServiceTest {
         //NO 15% discount
         assertEquals(110.00 * 4, order.getTotalPrice());
     }
+    //Feature Flag Order Notification enabled
+    @Test
+    public void testAddOrder_SuccessWithNotificationEnabled(){
+        //order details
+        Order order=new Order(1,3,"NEW",0);
+        //product details to ensure that the order works
+        Product product=new Product();
+        product.setQuantity(10);
+
+
+        when(restTemplate.getForObject(anyString(), eq(Product.class))).thenReturn(product);
+        when(featureFlagService.isOrderNotificationsEnabled()).thenReturn(true);
+
+        ByteArrayOutputStream outContent= new ByteArrayOutputStream();
+        System.setOut((new PrintStream(outContent)));
+
+        orderService.addOrder(order);
+
+        //log
+        String expectedOutput= "Order Confirmation"+
+                "\nOrder ID"+order.getId()+
+                "\nProduct ID:" + order.getProductId() +
+                "\nQuantity:" + order.getQuantity() +
+                "\nTotal Price";
+        assertEquals(expectedOutput.trim(),outContent.toString().trim());
+
+    }
+    //Feature Flag Order Notification disabled
+    @Test
+    public void testAddOrder_SuccessWithNotificationDisabled(){
+        //order details
+        Order order=new Order(1,3,"NEW",0);
+        //product details to ensure that the order works
+        Product product=new Product();
+        product.setQuantity(10);
+
+        when(restTemplate.getForObject(anyString(), eq(Product.class))).thenReturn(product);
+        when(featureFlagService.isOrderNotificationsEnabled()).thenReturn(false);
+
+        ByteArrayOutputStream outContent= new ByteArrayOutputStream();
+        System.setOut((new PrintStream(outContent)));
+
+        orderService.addOrder(order);
+        //no log
+        assertEquals("",outContent.toString().trim());
+
+    }
 }
