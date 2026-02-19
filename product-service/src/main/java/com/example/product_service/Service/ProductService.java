@@ -49,7 +49,7 @@ public class ProductService {
         if(featureFlagService.isPremiumPricingEnabled()){
             var products = new ArrayList<Product>();
             for(Product product: getProducts()){
-                product.setPrice(product.getPrice()*1.1);
+                product.setPrice(product.getPrice()*0.9);
                 products.add(product);
             }
             return products;
