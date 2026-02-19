@@ -2,6 +2,7 @@ package com.example.order_service;
 
 import com.example.order_service.Entity.Order;
 import com.example.order_service.Entity.Product;
+import com.example.order_service.Repository.OrderRepository;
 import com.example.order_service.Service.FeatureFlagService;
 import com.example.order_service.Service.OrderService;
 import org.junit.jupiter.api.Test;
@@ -10,6 +11,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.web.client.RestTemplate;
+
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
@@ -24,6 +29,9 @@ public class OrderServiceTest {
     @Mock
     private RestTemplate restTemplate;
 
+    @Mock
+    OrderRepository orderRepository;
+
     @InjectMocks
     private OrderService orderService;
 
@@ -35,6 +43,7 @@ public class OrderServiceTest {
        Order order = new Order();
        //Ordered amount
        order.setQuantity(7);
+       order.setTotalPrice(7*150);
 
        Product product = new Product();
        //Item price
@@ -58,6 +67,7 @@ public class OrderServiceTest {
         Order order = new Order();
         //Ordered amount
         order.setQuantity(6);
+        order.setTotalPrice(6*110);
 
         Product product = new Product();
         //Item price
@@ -65,8 +75,8 @@ public class OrderServiceTest {
         //Quantity in stock
         product.setQuantity(10);
 
-        when(restTemplate.getForObject(anyString(), eq(Product.class))).thenReturn(product);
-        when(featureFlagService.isBulkOrderDiscountEnabled()).thenReturn(false);
+        //when(restTemplate.getForObject(anyString(), eq(Product.class))).thenReturn(product);
+        //when(featureFlagService.isBulkOrderDiscountEnabled()).thenReturn(false);
 
         orderService.addOrder(order);
 
@@ -80,6 +90,7 @@ public class OrderServiceTest {
         Order order = new Order();
         //Ordered amount
         order.setQuantity(4);
+        order.setTotalPrice(4*110);
 
         Product product = new Product();
         //Item price
@@ -107,6 +118,7 @@ public class OrderServiceTest {
 
         when(restTemplate.getForObject(anyString(), eq(Product.class))).thenReturn(product);
         when(featureFlagService.isOrderNotificationsEnabled()).thenReturn(true);
+        when(orderRepository.save(order)).thenReturn(order);
 
         ByteArrayOutputStream outContent= new ByteArrayOutputStream();
         System.setOut((new PrintStream(outContent)));
