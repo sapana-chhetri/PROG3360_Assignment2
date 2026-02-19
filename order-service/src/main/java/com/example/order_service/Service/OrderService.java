@@ -68,7 +68,18 @@ public class OrderService {
                 "\nQuantity:"+order.getQuantity()+
                 "\nTotal Price:"+order.getTotalPrice());
     }
+
+    //Test Helper method for constructor injection
+    public void addOrderPlusProduct(Order order, Product product) {
+        //Calculate total order price
+        double totalPrice = product.getPrice() * order.getQuantity();
+
+        //If feature flag 3 is ON and more than 5 items add 15% discount
+        if(featureFlagService.isBulkOrderDiscountEnabled() && order.getQuantity() > 5){
+            totalPrice = totalPrice - (totalPrice * 0.15);
+        }
+
+        order.setTotalPrice(totalPrice);
+
+    }
 }
-
-
-
