@@ -14,7 +14,7 @@ public class UnleashConfiguration {
     public Unleash unleash() {
         // Create Unleash client using SDK UnleashConfig
         UnleashConfig config = UnleashConfig.builder()
-                .appName("order-service") // your service name
+                .appName("order-service") //service name
                 .instanceId(System.getenv().getOrDefault("HOSTNAME", "local"))
                 .environment("development")
                 .unleashAPI("http://unleash-server:4242/api")
