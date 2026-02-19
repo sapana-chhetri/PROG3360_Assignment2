@@ -42,7 +42,7 @@ public class OrderServiceTest {
 
        Order order = new Order();
        //Ordered amount
-       order.setQuantity(7);
+       order.setQuantity(8);
 
        Product product = new Product();
        //Item price
