@@ -81,6 +81,8 @@ jobs:
     - name: Start Docker Compose
       run: docker-compose up -d
 
+      #Add something for Wait for all services to be healthy
+
    #Add Initialize feature flags in Unleash using API calls
    
    #Add Run integration tests that verify:
