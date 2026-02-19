@@ -42,22 +42,31 @@ services:
         condition: service_healthy # Wait for the 'db' service healthcheck to pass
     networks:
       - shared-network
-#  product-service:
-#    build: ./product-service
-#    ports:
-#      - "8081:8081"
-#    environment:
-#      - PORT=8081
-#    networks:
-#      - shared-network
-##    healthcheck:
-##      test: ["CMD", "curl", "-f", "http://localhost:8081/actuator/health"]
-##      interval: 10s
-##      timeout: 5s
-##      retries: 3
-#
-#
-#
+    healthcheck:
+      test: [ "CMD", "wget", "-q", "--spider", "http://localhost:4242/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  product-service:
+    build: ./product-service
+    ports:
+      - "8081:8081"
+    environment:
+      - PORT=8081
+    networks:
+      - shared-network
+    depends_on:
+      unleash:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8081/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+
+
 #  order-service:
 #    build: ./order-service
 #    ports:
