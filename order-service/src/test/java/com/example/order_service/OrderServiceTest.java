@@ -2,6 +2,7 @@ package com.example.order_service;
 
 import com.example.order_service.Entity.Order;
 import com.example.order_service.Entity.Product;
+import com.example.order_service.Repository.OrderRepository;
 import com.example.order_service.Service.FeatureFlagService;
 import com.example.order_service.Service.OrderService;
 import org.junit.jupiter.api.Test;
@@ -28,6 +29,9 @@ public class OrderServiceTest {
     @Mock
     private RestTemplate restTemplate;
 
+    @Mock
+    OrderRepository orderRepository;
+
     @InjectMocks
     private OrderService orderService;
 
@@ -38,7 +42,7 @@ public class OrderServiceTest {
 
        Order order = new Order();
        //Ordered amount
-       order.setQuantity(8);
+       order.setQuantity(7);
 
        Product product = new Product();
        //Item price
@@ -112,6 +116,7 @@ public class OrderServiceTest {
 
         when(restTemplate.getForObject(anyString(), eq(Product.class))).thenReturn(product);
         when(featureFlagService.isOrderNotificationsEnabled()).thenReturn(true);
+        when(orderRepository.save(order)).thenReturn(order);
 
         ByteArrayOutputStream outContent= new ByteArrayOutputStream();
         System.setOut((new PrintStream(outContent)));
