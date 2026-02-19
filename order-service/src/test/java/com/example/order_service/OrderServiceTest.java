@@ -107,13 +107,15 @@ public class OrderServiceTest {
     //Feature Flag Order Notification enabled
     @Test
     public void testAddOrder_SuccessWithNotificationEnabled(){
-        //order details
-        Order order=new Order(1,3,"NEW",0);
-        //product details to ensure that the order works
-        Product product=new Product();
+        //Product and Order details
+       Order order = new Order(1, 3, "NEW", 0);
+        Product product = new Product();
+        product.setId(1);
         product.setQuantity(10);
+        product.setPrice(100.00);
 
-
+        when(restTemplate.getForObject("http://localhost:8081/api/products/" + order.getProductId(), Product.class))
+                .thenReturn(product);
         when(featureFlagService.isOrderNotificationsEnabled()).thenReturn(true);
 
         ByteArrayOutputStream outContent= new ByteArrayOutputStream();
@@ -122,7 +124,7 @@ public class OrderServiceTest {
         orderService.addOrder(order);
 
         //log
-        String expectedOutput= "Order Confirmation"+
+        String expectedOutput= "Order Confirmation:"+
                 "\nOrder ID"+order.getId()+
                 "\nProduct ID:" + order.getProductId() +
                 "\nQuantity:" + order.getQuantity() +
@@ -133,12 +135,15 @@ public class OrderServiceTest {
     //Feature Flag Order Notification disabled
     @Test
     public void testAddOrder_SuccessWithNotificationDisabled(){
-        //order details
-        Order order=new Order(1,3,"NEW",0);
-        //product details to ensure that the order works
-        Product product=new Product();
+        //Product and Order details
+       Order order = new Order(1, 3, "NEW", 0);
+        Product product = new Product();
+        product.setId(1);
         product.setQuantity(10);
+        product.setPrice(100.00);
 
+        when(restTemplate.getForObject("http://localhost:8081/api/products/" + order.getProductId(), Product.class))
+                .thenReturn(product);
         when(featureFlagService.isOrderNotificationsEnabled()).thenReturn(false);
 
         ByteArrayOutputStream outContent= new ByteArrayOutputStream();
