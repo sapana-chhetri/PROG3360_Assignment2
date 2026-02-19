@@ -53,8 +53,20 @@ public class OrderService {
         //If bulk-order-discount flag is OFF: Calculate totalPrice regardless of quantity
         order.setTotalPrice(totalPrice);
 
+        //if order-notifications is ON: print log of order
+        if (featureFlagService.isOrderNotificationsEnabled()){
+            logOrderNotification(order);
+        }
+
         orderRepository.save(order);
         return true;
+    }
+    private void logOrderNotification(Order order){
+        System.out.println("Order Confirmation:"+
+                "\nOrder ID:"+order.getId()+
+                "\nProduct ID:"+order.getProductId()+
+                "\nQuantity:"+order.getQuantity()+
+                "\nTotal Price:"+order.getTotalPrice());
     }
 }
 
