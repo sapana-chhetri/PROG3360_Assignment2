@@ -30,6 +30,10 @@ curl -X POST http://localhost:4242/api/admin \
     "type": "release"
   }'
 
+  # Enable order-notifications flag
+  curl -X POST "http://localhost:4242/api/admin/projects/default/features/premium-pricing/environments/development/on" \
+    -H "Authorization: Bearer $ADMIN_TOKEN"
+
 echo "order-notifications created and turned on"
   #Feature Flag 3 bulk-order-discount
   curl -X POST http://localhost:4242/api/admin \
@@ -41,4 +45,9 @@ echo "order-notifications created and turned on"
       "type": "release"
     }'
 
+  # Enable bulk-order-discount flag
+  curl -X POST "http://localhost:4242/api/admin/projects/default/features/premium-pricing/environments/development/on" \
+    -H "Authorization: Bearer $ADMIN_TOKEN"
+
 echo "bulk-order-discount created and turned on"
+
