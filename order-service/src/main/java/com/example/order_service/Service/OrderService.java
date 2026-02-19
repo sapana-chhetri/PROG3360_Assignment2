@@ -16,9 +16,11 @@ public class OrderService {
     private final RestTemplate restTemplate = new RestTemplate();
     private String productUrl = "http://localhost:8081/api/products";
 
+    private final FeatureFlagService featureFlagService;
     private OrderRepository orderRepository;
 
-    public OrderService(OrderRepository orderRepository) {
+    public OrderService(FeatureFlagService featureFlagService, OrderRepository orderRepository) {
+        this.featureFlagService = featureFlagService;
         this.orderRepository = orderRepository;
     }
 
@@ -39,7 +41,34 @@ public class OrderService {
         if(product==null || product.getQuantity() < order.getQuantity()) {
             return false;
         }
+
+        //Calculate total order price
+        double totalPrice = product.getPrice() * order.getQuantity();
+
+        //If feature flag 3 is ON and more than 5 items add 15% discount
+        if(featureFlagService.isBulkOrderDiscountEnabled() && order.getQuantity() > 5){
+            totalPrice = totalPrice - (totalPrice * 0.15);
+        }
+
+        //If bulk-order-discount flag is OFF: Calculate totalPrice regardless of quantity
+        order.setTotalPrice(totalPrice);
+
+        //if order-notifications is ON: print log of order
+        if (featureFlagService.isOrderNotificationsEnabled()){
+            logOrderNotification(order);
+        }
+
         orderRepository.save(order);
         return true;
     }
+    private void logOrderNotification(Order order){
+        System.out.println("Order Confirmation:"+
+                "\nOrder ID:"+order.getId()+
+                "\nProduct ID:"+order.getProductId()+
+                "\nQuantity:"+order.getQuantity()+
+                "\nTotal Price:"+order.getTotalPrice());
+    }
 }
+
+
+
