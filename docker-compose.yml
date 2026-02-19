@@ -1,39 +1,85 @@
 version: "3.8"
 
 services:
-  product-service:
-    build: ./product-service
+  postgres:
+    image: postgres:15
+    container_name: postgres
     ports:
-      - "8081:8081"
+      - "5432:5432"
     environment:
-      - PORT=8081
+      POSTGRES_USER: unleash_user
+      POSTGRES_PASSWORD: unleash_password
+      POSTGRES_DB: unleash_db
+    volumes:
+      - pgdata:/var/lib/postgresql/data
     networks:
       - shared-network
-#    healthcheck:
-#      test: ["CMD", "curl", "-f", "http://localhost:8081/actuator/health"]
-#      interval: 10s
-#      timeout: 5s
-#      retries: 3
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U unleash_user" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
-
-
-  order-service:
-    build: ./order-service
+  unleash:
+    image: unleashorg/unleash-server:latest
+    container_name: unleash_server
+    restart: unless-stopped
     ports:
-      - "8082:8082"
+      - "4242:4242" # Map port 4242 on your host to the container
     environment:
-      - PORT=8082
-#    depends_on:
-#      product-service:
-#        condition: service_healthy
+      DATABASE_URL: postgres://unleash_user:unleash_password@postgres:5432/unleash_db
+      # Disable SSL for local development only (DON'T use in production)
+      DATABASE_SSL: "false"
+      # Insecure API token for easy local testing
+      UNLEASH_INSECURE_API_TOKEN: default:development.unleash-insecure-api-token
+      UNLEASH_ADMIN_USER: admin
+      UNLEASH_ADMIN_PASSWORD: unleash4all
+
+      # Log level
+      LOG_LEVEL: info
+    depends_on:
+      postgres:
+        condition: service_healthy # Wait for the 'db' service healthcheck to pass
     networks:
       - shared-network
-#    healthcheck:
-#      test: [ "CMD", "curl", "-f", "http://localhost:8081/actuator/health" ]
-#      interval: 10s
-#      timeout: 5s
-#      retries: 3
+#  product-service:
+#    build: ./product-service
+#    ports:
+#      - "8081:8081"
+#    environment:
+#      - PORT=8081
+#    networks:
+#      - shared-network
+##    healthcheck:
+##      test: ["CMD", "curl", "-f", "http://localhost:8081/actuator/health"]
+##      interval: 10s
+##      timeout: 5s
+##      retries: 3
+#
+#
+#
+#  order-service:
+#    build: ./order-service
+#    ports:
+#      - "8082:8082"
+#    environment:
+#      - PORT=8082
+##    depends_on:
+##      product-service:
+##        condition: service_healthy
+#    networks:
+#      - shared-network
+##    healthcheck:
+##      test: [ "CMD", "curl", "-f", "http://localhost:8081/actuator/health" ]
+##      interval: 10s
+##      timeout: 5s
+##      retries: 3
 
 networks:
   shared-network:
     driver: bridge
+
+
+volumes:
+  pgdata:
+
