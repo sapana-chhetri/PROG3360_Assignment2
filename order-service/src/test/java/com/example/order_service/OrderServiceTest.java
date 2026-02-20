@@ -2,6 +2,7 @@ package com.example.order_service;
 
 import com.example.order_service.Entity.Order;
 import com.example.order_service.Entity.Product;
+import com.example.order_service.Repository.OrderRepository;
 import com.example.order_service.Service.FeatureFlagService;
 import com.example.order_service.Service.OrderService;
 import org.junit.jupiter.api.Test;
@@ -10,6 +11,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.web.client.RestTemplate;
+
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
@@ -24,6 +29,9 @@ public class OrderServiceTest {
     @Mock
     private RestTemplate restTemplate;
 
+    @Mock
+    OrderRepository orderRepository;
+
     @InjectMocks
     private OrderService orderService;
 
@@ -34,7 +42,7 @@ public class OrderServiceTest {
 
        Order order = new Order();
        //Ordered amount
-       order.setQuantity(7);
+       order.setQuantity(8);
 
        Product product = new Product();
        //Item price
@@ -42,13 +50,13 @@ public class OrderServiceTest {
        //Quantity in stock
        product.setQuantity(10);
 
-       when(restTemplate.getForObject(anyString(), eq(Product.class))).thenReturn(product);
        when(featureFlagService.isBulkOrderDiscountEnabled()).thenReturn(true);
 
-       orderService.addOrder(order);
+       // Call testing helper method from order service to calculate total price
+       orderService.addOrderPlusProduct(order,product);
 
        //15% discount
-       assertEquals(150.00 * 7 *0.85, order.getTotalPrice());
+       assertEquals(150.00 * 8 *0.85, order.getTotalPrice());
     }
 
     //Feature Flag bulk-order-discount off
@@ -65,10 +73,10 @@ public class OrderServiceTest {
         //Quantity in stock
         product.setQuantity(10);
 
-        when(restTemplate.getForObject(anyString(), eq(Product.class))).thenReturn(product);
         when(featureFlagService.isBulkOrderDiscountEnabled()).thenReturn(false);
 
-        orderService.addOrder(order);
+        // Call testing helper method from order service to calculate total price
+        orderService.addOrderPlusProduct(order,product);
 
         //NO 15% discount
         assertEquals(110.00 * 6, order.getTotalPrice());
@@ -83,16 +91,67 @@ public class OrderServiceTest {
 
         Product product = new Product();
         //Item price
-        product.setPrice(110.00);
+        product.setPrice(130.00);
         //Quantity in stock
         product.setQuantity(10);
 
-        when(restTemplate.getForObject(anyString(), eq(Product.class))).thenReturn(product);
         when(featureFlagService.isBulkOrderDiscountEnabled()).thenReturn(true);
+
+        // Call testing helper method from order service to calculate total price
+        orderService.addOrderPlusProduct(order,product);
+
+        //NO 15% discount
+        assertEquals(130.00 * 4, order.getTotalPrice());
+    }
+
+    //Feature Flag Order Notification enabled
+    @Test
+    public void testAddOrder_SuccessWithNotificationEnabled(){
+        //Product and Order details
+       Order order = new Order(1, 3, "NEW", 0);
+        Product product = new Product();
+        product.setId(1);
+        product.setQuantity(10);
+        product.setPrice(100.00);
+
+        when(restTemplate.getForObject("http://localhost:8081/api/products/" + order.getProductId(), Product.class))
+                .thenReturn(product);
+        when(featureFlagService.isOrderNotificationsEnabled()).thenReturn(true);
+
+        ByteArrayOutputStream outContent= new ByteArrayOutputStream();
+        System.setOut((new PrintStream(outContent)));
 
         orderService.addOrder(order);
 
-        //NO 15% discount
-        assertEquals(110.00 * 4, order.getTotalPrice());
+        //log
+        String expectedOutput= "Order Confirmation:"+
+                "\nOrder ID"+order.getId()+
+                "\nProduct ID:" + order.getProductId() +
+                "\nQuantity:" + order.getQuantity() +
+                "\nTotal Price"+order.getTotalPrice();
+        assertEquals(expectedOutput.trim(),outContent.toString().trim());
+
+    }
+    //Feature Flag Order Notification disabled
+    @Test
+    public void testAddOrder_SuccessWithNotificationDisabled(){
+        //Product and Order details
+       Order order = new Order(1, 3, "NEW", 0);
+        Product product = new Product();
+        product.setId(1);
+        product.setQuantity(10);
+        product.setPrice(100.00);
+
+        when(restTemplate.getForObject("http://localhost:8081/api/products/" + order.getProductId(), Product.class))
+                .thenReturn(product);
+        when(featureFlagService.isOrderNotificationsEnabled()).thenReturn(false);
+
+        ByteArrayOutputStream outContent= new ByteArrayOutputStream();
+        System.setOut((new PrintStream(outContent)));
+
+        orderService.addOrder(order);
+        //no log
+        assertEquals("",outContent.toString().trim());
+
     }
 }

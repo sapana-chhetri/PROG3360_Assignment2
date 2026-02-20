@@ -19,9 +19,10 @@ public class OrderService {
     private final FeatureFlagService featureFlagService;
     private OrderRepository orderRepository;
 
-    public OrderService(FeatureFlagService featureFlagService, OrderRepository orderRepository) {
+    public OrderService(RestTemplate restTemplate, FeatureFlagService featureFlagService, OrderRepository orderRepository) {
         this.featureFlagService = featureFlagService;
         this.orderRepository = orderRepository;
+        this.restTemplate=restTemplate;
     }
 
     public List<Order> getOrders() {
@@ -68,7 +69,18 @@ public class OrderService {
                 "\nQuantity:"+order.getQuantity()+
                 "\nTotal Price:"+order.getTotalPrice());
     }
+
+    //Test Helper method for constructor injection
+    public void addOrderPlusProduct(Order order, Product product) {
+        //Calculate total order price
+        double totalPrice = product.getPrice() * order.getQuantity();
+
+        //If feature flag 3 is ON and more than 5 items add 15% discount
+        if(featureFlagService.isBulkOrderDiscountEnabled() && order.getQuantity() > 5){
+            totalPrice = totalPrice - (totalPrice * 0.15);
+        }
+
+        order.setTotalPrice(totalPrice);
+
+    }
 }
-
-
-

@@ -16,8 +16,8 @@ public class UnleashConfiguration {
                 .appName("product-service") // service name
                 .instanceId(System.getenv().getOrDefault("HOSTNAME", "local"))
                 .environment("development")
-                .unleashAPI("http://unleash-server:4242/api")
-                .apiKey(System.getenv().getOrDefault("UNLEASH_API_TOKEN", "default-token"))
+                .unleashAPI("http://localhost:4242/api")
+                .apiKey(System.getenv().getOrDefault("UNLEASH_API_TOKEN", "default:development.6be178343bae8003f1fd5df78529a0d35ae6adc82e3ae3b27f9529c2"))
                 .build();
 
         return new DefaultUnleash(config);
