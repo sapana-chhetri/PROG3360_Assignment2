@@ -109,7 +109,9 @@ jobs:
 
 
       #Add something for Wait for all services to be healthy
-
+      
+    - name: Wait for Unleash to be ready
+      run: sleep 40
    #Initialize feature flags in Unleash using API calls
     - name: Initialize feature flags 
       run: |
