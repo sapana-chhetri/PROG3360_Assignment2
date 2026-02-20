@@ -107,8 +107,8 @@ jobs:
     - name: Tear Down Docker Compose
       run: docker-compose down
       
-#Job 3: Feature Flag Validation
- docker-feature-flag-validation:
+ #Job 3: Feature Flag Validation
+  docker-feature-flag-validation:
   
     runs-on: ubuntu-latest
     needs: docker-build-integration-tests
