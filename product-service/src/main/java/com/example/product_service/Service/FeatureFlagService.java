@@ -18,4 +18,11 @@ public class FeatureFlagService {
             return false;
         }
     }
+
+    // testing
+    public boolean testFlags(){
+        try {
+            return unleash.isEnabled("testflag");
+        }catch (Exception e){return false;}
+    }
 }

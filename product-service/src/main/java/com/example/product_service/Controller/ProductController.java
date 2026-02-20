@@ -15,6 +15,11 @@ public class ProductController {
         this.productService = productService;
     }
 
+    @GetMapping("/test")
+    public boolean test() {
+        return productService.flagTest();
+    }
+
     @GetMapping("/products")
     public List<Product> getAllProducts() {
         return productService.getProducts();

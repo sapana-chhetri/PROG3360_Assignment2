@@ -22,6 +22,10 @@ public class ProductService {
         this.featureFlagService = featureFlagService;
     }
 
+    public boolean flagTest(){
+        return featureFlagService.testFlags();
+    }
+
     //Calls the repository method findAll() to fetch all products
     public List<Product> getProducts() {
         return productRepository.findAll();
@@ -54,6 +58,7 @@ public class ProductService {
             }
             return products;
         } else {
+            System.out.println(featureFlagService.isPremiumPricingEnabled());
             return productRepository.findAll();
         }
     }
