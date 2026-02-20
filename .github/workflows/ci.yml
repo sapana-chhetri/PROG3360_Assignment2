@@ -110,14 +110,13 @@ jobs:
 
       #Add something for Wait for all services to be healthy
       
-    - name: Wait for Unleash to be ready
-      run: sleep 40
+    # - name: Wait for Unleash to be ready
+    #   run: sleep 40
    #Initialize feature flags in Unleash using API calls
     - name: Initialize feature flags 
       run: |
-       bash ./scripts/init-flags.sh
-        # chmod +x ./scripts/init-flags.sh
-        # ./scripts/init-flags.sh
+         chmod +x ./scripts/init-flags.sh
+         ./scripts/init-flags.sh
 
    #Add Run integration tests that verify:
 #–	Feature flags can be toggled via Unleash API
