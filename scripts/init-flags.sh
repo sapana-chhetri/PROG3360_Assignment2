@@ -2,30 +2,20 @@
 
 #configuration
 #ADMIN_TOKEN=${UNLEASH_INSECURE_API_TOKEN:-development.unleash-insecure-api-token}
-# ADMIN_TOKEN="user:8394a05af3f7daaf40ca78aad24d8c9642bafb41a831d8b3d33bc31e"
+ADMIN_TOKEN="user:8394a05af3f7daaf40ca78aad24d8c9642bafb41a831d8b3d33bc31e"
 
-# # Create feature flag via Unleash
-# # Admin API
-# #Feature Flag 1 premium-pricing
-# curl -X POST http://localhost:4242/api/admin/projects/default/features  \
-#   -H "Authorization: $ADMIN_TOKEN" \
-#   -H "Content-Type: application/json" \
-#   -d '{
-#     "name": "premium-pricing",
-#     "description": "Enable premium pricing discounts 10%",
-#     "type": "release"
-#   }'
-AUTH_H="Authorization: $ADMIN_TOKEN"
-
-# Example for Feature Flag 1
-curl -X POST http://localhost:4242/api/admin/projects/default/features \
-  -H "$AUTH_H" \
+# Create feature flag via Unleash
+# Admin API
+#Feature Flag 1 premium-pricing
+curl -X POST http://localhost:4242/api/admin/projects/default/features  \
+  -H "Authorization: $ADMIN_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
     "name": "premium-pricing",
     "description": "Enable premium pricing discounts 10%",
     "type": "release"
   }'
+
 
   # Enable premium-pricing flag
 curl -X POST "http://localhost:4242/api/admin/projects/default/features/premium-pricing/environments/development/on" \
