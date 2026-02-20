@@ -7,7 +7,7 @@ ADMIN_TOKEN="user:e95094979e08f374ebb77fa1b546ed3ce46a5c5ce985bfd626519526"
 # Create feature flag via Unleash
 # Admin API
 #Feature Flag 1 premium-pricing
-curl -X POST http://localhost:4242/api/admin/projects/default/features  \
+curl -X POST http://unleash_server:4242/api/admin/projects/default/features  \
   -H "Authorization: $ADMIN_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
@@ -17,13 +17,13 @@ curl -X POST http://localhost:4242/api/admin/projects/default/features  \
   }'
 
   # Enable premium-pricing flag
-curl -X POST "http://localhost:4242/api/admin/projects/default/features/premium-pricing/environments/development/on" \
+curl -X POST "http://unleash_server:4242/api/admin/projects/default/features/premium-pricing/environments/development/on" \
   -H "Authorization: $ADMIN_TOKEN"
 
 echo "premium-pricing created and turned on"
 
 #Feature Flag 2 order-notifications
-curl -X POST http://localhost:4242/api/admin/projects/default/features  \
+curl -X POST http://unleash_server:4242/api/admin/projects/default/features  \
   -H "Authorization: Bearer $ADMIN_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
@@ -33,12 +33,12 @@ curl -X POST http://localhost:4242/api/admin/projects/default/features  \
   }'
 
   # Enable order-notifications flag
-  curl -X POST "http://localhost:4242/api/admin/projects/default/features/order-notifications/environments/development/on" \
+  curl -X POST "http://unleash_server:4242/api/admin/projects/default/features/order-notifications/environments/development/on" \
     -H "Authorization: Bearer $ADMIN_TOKEN"
 
 echo "order-notifications created and turned on"
   #Feature Flag 3 bulk-order-discount
-  curl -X POST http://localhost:4242/api/admin/projects/default/features  \
+  curl -X POST http://unleash_server:4242/api/admin/projects/default/features  \
     -H "Authorization: Bearer $ADMIN_TOKEN" \
     -H "Content-Type: application/json" \
     -d '{
@@ -48,7 +48,7 @@ echo "order-notifications created and turned on"
     }'
 
   # Enable bulk-order-discount flag
-  curl -X POST "http://localhost:4242/api/admin/projects/default/features/bulk-order-discount/environments/development/on" \
+  curl -X POST "http://unleash_server:4242/api/admin/projects/default/features/bulk-order-discount/environments/development/on" \
     -H "Authorization: Bearer $ADMIN_TOKEN"
 
 echo "bulk-order-discount created and turned on"
