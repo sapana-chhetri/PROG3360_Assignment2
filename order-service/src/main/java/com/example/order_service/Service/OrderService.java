@@ -13,7 +13,7 @@ import java.util.Optional;
 @Service
 public class OrderService {
 
-    private final RestTemplate restTemplate = new RestTemplate();
+    private RestTemplate restTemplate = new RestTemplate();
     private String productUrl = "http://localhost:8081/api/products";
 
     private final FeatureFlagService featureFlagService;
