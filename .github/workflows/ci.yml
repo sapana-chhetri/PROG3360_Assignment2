@@ -112,7 +112,9 @@ jobs:
 
    #Initialize feature flags in Unleash using API calls
     - name: Initialize feature flags 
-      run: ./scripts/init-flags.sh
+      run: |
+        chmod +x ./scripts/init-flags.sh
+        ./scripts/init-flags.sh
 
    #Add Run integration tests that verify:
 #–	Feature flags can be toggled via Unleash API
