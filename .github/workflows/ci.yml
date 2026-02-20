@@ -105,6 +105,8 @@ jobs:
       
     - name: Start Docker Compose
       run: docker-compose up -d
+      working-directory: .
+
 
       #Add something for Wait for all services to be healthy
 
