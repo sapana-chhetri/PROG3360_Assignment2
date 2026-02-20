@@ -65,10 +65,9 @@ jobs:
           uses: actions/upload-artifact@v4
           with:
            name: test-reports
-           path: target/surefire-reports # Path to the generated test results
-          if: always() # Upload artifacts even if tests fail
-          
-      
+           path: 
+                **/target/surefire-reports/*.xml
+               
   #Job 2: Docker Build & Integration Test
   docker-build-integration-tests:
   
