@@ -115,7 +115,7 @@ jobs:
    #Initialize feature flags in Unleash using API calls
     - name: Initialize feature flags 
       run: |
-        run: bash ./scripts/init-flags.sh
+       bash ./scripts/init-flags.sh
         # chmod +x ./scripts/init-flags.sh
         # ./scripts/init-flags.sh
 
