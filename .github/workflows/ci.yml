@@ -76,16 +76,25 @@ jobs:
     steps:
     - name: Docker Build and Integration Tests
       uses: actions/checkout@v4
+
+    - name: Build product Service JAR
+      run: mvn clean package -DskipTests
+      working-directory: product-service
       
     - name: Build Product Docker image
       run: docker build -t productservice .
       #OR this if above doesnt work, from template.. run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
 
-      working-directory: order-service
-      
-    - name: Build Order Docker image
-      run: docker build -t productservice .
       working-directory: product-service
+
+      
+    - name: Build order Service JAR
+      run: mvn clean package -DskipTests
+      working-directory: order-service
+
+    - name: Build Order Docker image
+      run: docker build -t orderservice .
+      working-directory: order-service
       
     - name: Start Docker Compose
       run: docker-compose up -d
