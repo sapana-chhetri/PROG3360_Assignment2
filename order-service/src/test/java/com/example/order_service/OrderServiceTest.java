@@ -125,10 +125,10 @@ public class OrderServiceTest {
 
         //log
         String expectedOutput= "Order Confirmation:"+
-                "\nOrder ID"+order.getId()+
+                "\nOrder ID:"+order.getId()+
                 "\nProduct ID:" + order.getProductId() +
                 "\nQuantity:" + order.getQuantity() +
-                "\nTotal Price"+order.getTotalPrice();
+                "\nTotal Price:"+order.getTotalPrice();
         assertEquals(expectedOutput.trim(),outContent.toString().trim());
 
     }
