@@ -45,3 +45,18 @@ Spring Boot Microservices
   "totalPrice": 50,
   "status": "Paid"
   }
+
+  #Part 2
+  1 To show the deployment
+    kubectl get deployments -n assignment3
+
+  2 Show ReplicaSets
+    kubectl get rs -n assignment3
+  3 Scale order-service, product service
+    kubectl scale deployment order-service --replicas=4 -n assignment3
+    kubectl scale deployment product-service --replicas=4 -n assignment3
+    kubectl get pods -n assignment3 -w
+  4 Dele one pod
+    kubectl delete pod <pod-name> -n assignment3
+  5 Show that Kubernetes automatically creates a replacement Pod
+    kubectl get pods -n assignment3 -w
