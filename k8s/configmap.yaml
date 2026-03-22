@@ -8,6 +8,4 @@ data:
   APP_VERSION: "1.0.0"
   SERVER_PORT: "8082"
   PRODUCT_SERVICE_URL: "http://product-service:8081/api/products"
-  UNLEASH_API_URL: "http://unleash-server:4242/api"
-  UNLEASH_APP_NAME: "order-service"
-  UNLEASH_ENVIRONMENT: "development"
+
