@@ -5,7 +5,6 @@ metadata:
   namespace: assignment3
   labels:
     app: order-service
-    version: "1.0.0"
 spec:
   replicas: 2
   selector:
@@ -15,7 +14,6 @@ spec:
     metadata:
       labels:
         app: order-service
-        version: "1.0.0"
     spec:
       restartPolicy: Always
       containers:
@@ -45,39 +43,3 @@ spec:
                 configMapKeyRef:
                   name: order-service-config
                   key: PRODUCT_SERVICE_URL
-            - name: UNLEASH_API_URL
-              valueFrom:
-                configMapKeyRef:
-                  name: order-service-config
-                  key: UNLEASH_API_URL
-            - name: UNLEASH_APP_NAME
-              valueFrom:
-                configMapKeyRef:
-                  name: order-service-config
-                  key: UNLEASH_APP_NAME
-            - name: UNLEASH_ENVIRONMENT
-              valueFrom:
-                configMapKeyRef:
-                  name: order-service-config
-                  key: UNLEASH_ENVIRONMENT
-            - name: UNLEASH_API_TOKEN
-              value: "default:development.6be178343bae8003f1fd5df78529a0d35ae6adc82e3ae3b27f9529c2"
-          resources:
-            requests:
-              memory: "256Mi"
-              cpu: "250m"
-            limits:
-              memory: "512Mi"
-              cpu: "500m"
-          readinessProbe:
-            httpGet:
-              path: /api/orders
-              port: 8082
-            initialDelaySeconds: 20
-            periodSeconds: 10
-          livenessProbe:
-            httpGet:
-              path: /api/orders
-              port: 8082
-            initialDelaySeconds: 40
-            periodSeconds: 15
