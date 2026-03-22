@@ -41,15 +41,19 @@ To use "a3" instead, run this command:
 
 ```kubectl config use-context a3```
 
-## Step 5: Create product service deployment
+## Step 5: Create product and order service deployment
 
-We now need to instantiate our product service image container into a "pod".
+We now need to instantiate our product and order service image containers into a "pod".
 
 ```kubectl apply -f .\product-deployment.yaml```
+```kubectl apply -f .\order-deployment.yaml```
+
 
 After running that command, I recommend using ```kubectl get deployments``` to check that the service is working. You should see the following output:
 
 NAME              READY   UP-TO-DATE   AVAILABLE   AGE
 product-service   2/2     2            2           13m
+product-service   2/2     2            2           13m
+
 
 ---
