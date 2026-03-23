@@ -55,5 +55,51 @@ NAME              READY   UP-TO-DATE   AVAILABLE   AGE
 product-service   2/2     2            2           13m
 product-service   2/2     2            2           13m
 
+# Part 3 Rolling Update Demonstration 
+
+### Commands for Changing Docker Image Tag for Product Service. 
+
+## Step 1: Original Version is running (V1)
+
+No changes made, running as is.
+
+## Step 2: Update the Deployment to Version 2 - Change Docker image tag to Version 2 (:v2)
+
+Build the V2 Docker Image
+
+```docker build -t prog3360_assignment2-product-service:v2 .```
+
+Make it available to Minikube
+
+```minikube image load prog3360_assignment2-product-service:v2```
+
+Update the image of the application to V2
+
+```kubectl set image deployment/product-service product-service=prog3360_assignment2-product-service:v2 -n assignment3```
+
+## Step 3: Verify Rollout Succeeds
+
+```kubectl rollout status deployment/product-service -n assignment3```
+
+## Step 4: Check Rollout History
+
+```kubectl rollout history deployment/product-service -n assignment3```
+
+## Step 5: Show the new version is available
+
+Show pods are running
+
+```kubectl get pods -n assignment3```
+
+Describe the Product service pod
+*Get the pod name from the above command, i.e. product-service-688656bb69-894k
+
+```kubectl describe pod <pod-name> -n assignment3```
+
+Look for new image tag, for example.. Image: prog3360_assignment2-product-service:v2
+
+## Step 6: Bonus Rollback Deployment to Previous Version
+
+```kubectl rollout undo deployment/product-service -n assignment3```
 
 ---
