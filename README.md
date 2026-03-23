@@ -83,18 +83,21 @@ product-service   2/2     2            2           13m
 
 # Part 2 ReplicaSets, Scaling, and Self-Healing 
 
-  1 To show the deployment
+##  1 To show the deployment
     kubectl get deployments -n assignment3
 
-  2 Show ReplicaSets
+##  2 Show ReplicaSets
     kubectl get rs -n assignment3
-  3 Scale order-service, product service
+    
+##  3 Scale order-service, product service
     kubectl scale deployment order-service --replicas=4 -n assignment3
     kubectl scale deployment product-service --replicas=4 -n assignment3
     kubectl get pods -n assignment3 -w
-  4 Dele one pod
+    
+##  4 Delete one pod
     kubectl delete pod <pod-name> -n assignment3
-  5 Show that Kubernetes automatically creates a replacement Pod
+    
+##  5 Show that Kubernetes automatically creates a replacement Pod
     kubectl get pods -n assignment3 -w
 
 
