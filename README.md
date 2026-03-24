@@ -27,13 +27,15 @@ Spring Boot Microservices
 
 ### Before you begin
 
-Make sure Minikube is installed/pulled on your docker hub. I did this by just running the command ```minikube start``` inside a PowerShell terminal.
+Ensure DockerHub is up and running on your machine. Otherwise, Kubernetes cannot start up.
 
 ## Step 1: Create kubernetes instance
 
 Inside of your docker hub, go to the *Kubernetes* tab. If you haven't installed it yet, Docker will give you the option.
 
 Once Kubernetes is installed, you should see a "default" namespace. We will *not* be using default.
+
+Now make sure Minikube is installed/pulled on your docker hub. You will need to run ```minikube start``` for the following commands to work.
 
 ## Step 2: Create namespace
 
@@ -43,7 +45,7 @@ Open a terminal within IntelliJ, using the project root. I recommend changing to
 
 From here, you can run the following command to instantiate our assignment 3 namespace:
 
-```kubectl create -f .\k8s\namespace.yaml```
+```kubectl create -f namespace.yaml```
 
 To make life easier, run this command to create an alias for the namespace. Instead of "assignment3", you can just write "a3" into the terminal afterwards.
 
@@ -70,6 +72,21 @@ To use "a3" instead, run this command:
 
 We now need to instantiate our product and order service image containers into a "pod".
 
+But before that, the docker images need to be built so that minikube can access them.
+
+Start by running the following command to change our docker instance to be the one inside minikube:
+
+```& minikube -p minikube docker-env --shell powershell | Invoke-Expression```
+
+Then, build the images:
+
+```cd ..\product-service```
+```docker build -t product-service .```
+
+```cd ..\order-service```
+```docker build -t order-service .```
+
+```cd ..\k8s```
 ```kubectl apply -f .\product-deployment.yaml```
 ```kubectl apply -f .\order-deployment.yaml```
 
@@ -77,8 +94,8 @@ We now need to instantiate our product and order service image containers into a
 After running that command, I recommend using ```kubectl get deployments``` to check that the service is working. You should see the following output:
 
 NAME              READY   UP-TO-DATE   AVAILABLE   AGE
-product-service   2/2     2            2           13m
-product-service   2/2     2            2           13m
+product-service   2/2     2            2           0s
+order-service     2/2     2            2           0s
 
 
 # Part 2 ReplicaSets, Scaling, and Self-Healing 
@@ -113,11 +130,8 @@ No changes made, running as is.
 
 Build the V2 Docker Image
 
+```cd ..\product-service```
 ```docker build -t prog3360_assignment2-product-service:v2 .```
-
-Make it available to Minikube
-
-```minikube image load prog3360_assignment2-product-service:v2```
 
 Update the image of the application to V2
 

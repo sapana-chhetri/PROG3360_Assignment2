@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: product-service
+  namespace: assignment3
   labels:
     app: product-service
 spec:
@@ -20,7 +21,7 @@ spec:
           image: prog3360_assignment2-product-service
           imagePullPolicy: IfNotPresent
           ports:
-            - containerPort: 80
+            - containerPort: 8081
               protocol: TCP
       restartPolicy: Always
       

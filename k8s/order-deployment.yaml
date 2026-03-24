@@ -12,34 +12,15 @@ spec:
       app: order-service
   template:
     metadata:
+      name: order-service
       labels:
         app: order-service
     spec:
       restartPolicy: Always
       containers:
         - name: order-service
-          image: prog3360_assignment2-order-service:latest
+          image: prog3360_assignment2-order-service
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8082
-          env:
-            - name: APP_ENV
-              valueFrom:
-                configMapKeyRef:
-                  name: order-service-config
-                  key: APP_ENV
-            - name: APP_VERSION
-              valueFrom:
-                configMapKeyRef:
-                  name: order-service-config
-                  key: APP_VERSION
-            - name: SERVER_PORT
-              valueFrom:
-                configMapKeyRef:
-                  name: order-service-config
-                  key: SERVER_PORT
-            - name: PRODUCT_SERVICE_URL
-              valueFrom:
-                configMapKeyRef:
-                  name: order-service-config
-                  key: PRODUCT_SERVICE_URL
+              protocol: TCP
